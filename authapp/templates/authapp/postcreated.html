@@ -1,0 +1,5 @@
+{% extends "base.html" %}
+{% block content %}
+<h1>Welcome {{ new_user.first_name }}!</h1>
+<p>Your post was succesfully added. <a href="{% url 'authapp:post' %}">Go to posts</a>.</p>
+{% endblock content %}

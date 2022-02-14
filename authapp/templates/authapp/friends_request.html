@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+{% block title %}Friends{% endblock title %}
+{% block content %}
+<h1>Friend accept</h1>
+
+{% if user.is_authenticated %}
+{%for friend_request in all_friend_requests%}
+<h1>{{friend_request.from_user}}
+    <a href = "/accept_friend_request/{{friend_request.id}}/">
+        accept friend request</a>
+</h1>
+{%endfor%}
+{%endif%}
+{% endblock content %}

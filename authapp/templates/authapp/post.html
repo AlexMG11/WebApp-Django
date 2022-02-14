@@ -1,0 +1,88 @@
+{% extends "base.html" %}
+      
+ {% block content %}
+<style>
+    
+    body {
+        font-family: "Roboto", sans-serif;
+        font-size: 18px;
+        background-color: #ffffff;
+    }
+
+    .head_text{
+    color: rgb(252, 5, 5);
+  }
+    .card{
+    box-shadow: 0 16px 48px #0080ff;   
+}
+    .masthead {
+        background:#16ff9e;
+        height: auto;
+        padding-bottom: 15px;
+        box-shadow: 0 16px 48px #E3E7EB;
+        padding-top: 10px;
+    }
+</style>
+
+    <header class="masthead" >
+            <div class="overlay"></div>
+            <div class="container">
+              <div class="row">
+                <div class=" col-md-8 col-md-10 mx-auto">
+                  <div class="site-heading">
+                    <h3 class=" site-heading my-4 mt-3 text-white"> Welcome to my awesome Blog </h3>
+                    <p class="text-light">Hope you like it
+                    </p>
+                </div>
+                    </div>
+                  </div>
+                </div>
+            </div>
+              </header>
+              <div class="button_example">
+                <a href="{% url 'authapp:createpost' %}" class="btn btn-secondary">Post</a>
+            </div>
+        
+            <div class="container">
+                <div class="row">
+      
+              <!-- Blog Entries Column -->
+              <div class="col-md-8 mt-3 left">
+                    {% for post in posts %}
+                <div class="card mb-4" >
+                  <div class="card-body">
+                    <p class="text-light">Hope you like it
+                    </p>
+                    <h2 class="card-title">{{ post.title }}</h2>
+                    <p class="card-text text-muted h6">{{ post.author }} | {{ post.created_on}} </p>
+
+                    <p class="card-text">{{post.content|slice:":200" }}</p>
+                    <a href="{% url 'authapp:post_detail' post.slug  %}" class="btn btn-primary">Read More &rarr;</a>
+                  </div>
+                 
+                </div>
+                {% endfor %}
+            </div>
+            {% block sidebar %}
+
+<style>
+        .card{
+            box-shadow: 0 16px 48px #4e6f91;
+        }
+       
+</style>
+
+<!-- Sidebar Widgets Column -->
+<div class="col-md-4 float-right ">
+<div class="card my-4">
+        <h5 class="card-header">About</h5>
+    <div class="card-body">
+        <p class="card-text">Nice</p>
+    </div>
+</div>
+</div>
+
+{% endblock sidebar %}
+            </div>
+        </div>
+{%endblock%}

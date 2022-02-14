@@ -1,4 +1,5 @@
 from django.contrib.auth.models import User
+from authapp.models import Post
 from django import forms
 # from .models import Profile
 from django.contrib.auth.forms import AuthenticationForm, UsernameField
@@ -27,4 +28,8 @@ class UserEditForm(forms.ModelForm):
         model = User
         fields = ('first_name', 'last_name', 'email')
 
+class PostForm(forms.ModelForm):
+    class Meta:
+        model = Post
+        fields = ('title', 'slug','author', 'content','status')
 

@@ -1,0 +1,257 @@
+import tkinter as tk
+import json
+from tkinter.filedialog import asksaveasfile
+import time
+from tkinter import messagebox
+from functools import partial
+def create_window():
+    window = tk.Toplevel(root)
+
+data = {}
+root = tk.Tk()
+var1 = tk.StringVar()
+var2 = tk.StringVar()
+root.configure(bg = "blue")
+testexc1 = "Please enter only numbers and the character ':'"
+testexc2 = "Please enter only numbers and the character '.'"
+testexc3 = "Please check a box"
+root.geometry("400x400")
+root.title("To do list")
+def printed(obj):
+    user = obj.get()
+    print(user)
+def pir(obj):
+    user = obj.get()
+    print(user)
+
+
+def addtask(title,desc,time,date,var1,var2, root):
+    user = title.get()
+    key1 = desc.get()
+    key2 = time.get()
+    key3 = date.get()
+    key4 = var1.get()
+    print(key4)
+    key5 = var2.get()
+    key2lower = key2.lower()
+    key3lower = key3.lower() 
+    print(key2.isdecimal())
+    print(user)
+    if user == "":
+        messagebox.showwarning("Title ", "Enter a title")
+    else:
+        if (key2.islower()==False and key2.find(":") != -1):
+            if (key3.islower()==False and key3.find(".") != -1):
+                if(key4 == "YES" or key5 == "YES"):
+                    print(data)
+                    '''data[user] = {"description":key1,"time":key2,"date":key3,"to do":key4,"to end":key5}'''
+                    print(type(key1))
+                    a_file = open("data.json","r")
+                    print(type(a_file))
+                    a_dict = json.load(a_file)
+                    a_dict[user] = {"description":key1,"time":key2,"date":key3,"to do":key4,"to end":key5,"colour":""}
+                    a_file = open("data.json","w")
+                    a_file = json.dump(a_dict,a_file)
+                    print(type(a_file))
+                    root.destroy()
+                else:
+                    messagebox.showwarning("Check a button", testexc3)
+            else:
+                messagebox.showwarning("Date field error", testexc2)#testexc2
+        else:
+            
+            messagebox.showwarning("Time field error", testexc1)#testexc1
+
+            
+
+    
+def add_task():
+        
+    window = tk.Toplevel(root)
+    window.title("Add tasks")
+    window.geometry("400x400")
+    
+    tk.Label(window, text = "Title",height = 2,width =4,font = 10).grid(row=0,column=0)
+    entry1 = tk.Entry(window)
+    entry1.grid(row=0,column=1)
+    # entryver1 = tk.Entry(window)
+    # entryver1.grid(row=1,column=0)
+    '''e1 = tk.Button(window,text = "print",height = 2,width =4,font = 10, command = partial(printed, entry1))
+    e1.grid(row=0,column=2)'''
+    
+    tk.Label(window, text = "Description",height = 2,width =10,font = 10).grid(row=2,column=0)
+    entry2 = tk.Entry(window)
+    entry2.grid(row=2,column=1)
+    # entryver2 = tk.Entry(window)
+    # entryver2.grid(row=3,column=0)
+    
+    tk.Label(window, text = "Time",height = 2,width =4,font = 10).grid(row=4,column=0)
+    entry3 = tk.Entry(window)
+    entry3.grid(row=4,column=1)
+    # entryver3 =tk.Entry(window)
+    # entryver3.grid(row=5,column=0)
+    
+    
+    tk.Label(window, text = "Date",height = 2,width =4,font = 10).grid(row=6,column=0)
+    entry4 = tk.Entry(window)
+    entry4.grid(row=6,column=1)
+    # entryver4 = tk.Entry(window)
+    # entryver4.grid(row=7,column=0)
+
+    c1 = tk.Checkbutton(window, text = "to start", variable = var1, onvalue = "YES",offvalue = "NO")
+    c1.deselect()
+    c1.grid(row = 8, column= 0)
+    
+    '''nu = tk.Button(window,text = "nu", command = partial(pir,var1)).grid(row= 5,column =0)'''
+    c2 = tk.Checkbutton(window, text = "to end", variable = var2,onvalue = "YES",offvalue = "NO")
+    c2.deselect()
+    c2.grid(row = 8, column= 1)
+    # entryver5 = tk.Entry(window)
+    # entryver5.grid(row=9,column=0)
+       
+    
+    '''da = tk.Button(window,text = "da", command = partial(pir,var2)).grid(row= 5,column =1)'''
+    submit_button = tk.Button(window,text = "Add task",height = 4, width =7, command = partial(addtask, entry1, entry2, entry3, entry4, var1,var2, window))
+    submit_button.grid(row=10,column = 0)
+    
+    
+    '''a_file = open("data.json", "a")
+    print(type(a_file))
+    a_file = json.dump(data,a_file)
+    
+    a_file = open("data.json","r")
+    print(a_file.read())
+    print(type(a_file))'''
+    '''a_dictionary = json.load(a_file)
+    print(a_dictionary)'''
+
+def view_desc(mylistbox,window):
+    wd = tk.Toplevel(window)
+    wd.title("Description")
+    wd.geometry("500x300")
+    obj = mylistbox.get(mylistbox.curselection())
+    
+    file_a = open("data.json","r")
+    file_dict = json.load(file_a)
+    desc = file_dict[obj]["description"]
+    dc = "Description of task: " + desc
+    tk.Label(wd,text = dc,height = 3,width =60,font='Helvetica 10 bold').grid(row=1,column  = 0)
+    
+    
+    time = file_dict[obj]["time"]
+    
+    date = file_dict[obj]["date"]
+    todo = file_dict[obj]["to do"]
+    toend = file_dict[obj]["to end"]
+    tm = "Time: " + time
+    dt= "Date: "+ date
+    td = "To do: " + str(todo)
+    te= "To end: " + str(toend)
+    tk.Label(wd,text = tm,height = 3,width =15,font='Helvetica 10 bold').grid(row=2,column=0)
+    tk.Label(wd,text = dt,height = 3,width =15,font='Helvetica 10 bold').grid(row=3,column=0)
+    tk.Label(wd,text = td,height = 3,width =15,font='Helvetica 10 bold').grid(row=4,column=0)
+    tk.Label(wd,text = te,height = 3,width =15,font='Helvetica 10 bold').grid(row=5,column=0)
+def deleteTask(mylistbox):
+    obj = mylistbox.get(mylistbox.curselection())
+    mylistbox.delete(tk.ANCHOR)
+    file_a = open("data.json","r")
+    file_dict = json.load(file_a)
+    file_dict.pop(obj)
+    a_file = open("data.json","w")
+    a_file = json.dump(file_dict,a_file)
+def abort(mylistbox):
+    file_a = open("data.json","r")
+    file_dict = json.load(file_a)
+    obj = mylistbox.get(mylistbox.curselection())
+    x = mylistbox.index(tk.ANCHOR)
+    print(x)
+    abortstr  = obj+" (aborted)"
+    if obj[-10:] != " (aborted)":
+        mylistbox.itemconfig(tk.ANCHOR,  bg  = "red")
+        file_dict[abortstr] = file_dict.pop(obj)
+        file_dict[abortstr]["colour"] = "red"
+    x = mylistbox.index(tk.ANCHOR)
+    mylistbox.delete(x)
+    mylistbox.insert(x,abortstr)
+    mylistbox.itemconfig(x,  bg  = "red")
+    a_file = open("data.json","w")
+    a_file = json.dump(file_dict,a_file)
+
+def finished(mylistbox):
+    file_a = open("data.json","r")
+    file_dict = json.load(file_a)
+    obj = mylistbox.get(mylistbox.curselection())
+    successtring  = obj+" (finished)"
+    if obj[-11:] != " (finished)":
+        file_dict[successtring] = file_dict.pop(obj)
+        file_dict[successtring]["colour"] = "green"
+    x = mylistbox.index(tk.ANCHOR)
+    mylistbox.delete(x)
+    mylistbox.insert(x,successtring)
+    mylistbox.itemconfig(x,  bg  = "green")
+    a_file = open("data.json","w")
+    a_file = json.dump(file_dict,a_file)
+
+
+
+
+
+def view_tasks(): 
+    ws = tk.Toplevel(root,bg = "black")
+    '''def view_desc(obj):
+        wd = tk.Toplevel(ws)
+        wd.title("Description")
+        wd.geometry("700x700")
+        tk.Label(wd,text = "Description of task",height = 2,width =5,font = 10).grid(row=1,column=0)'''
+    ws.title("view tasks")
+    ws.geometry("700x700")
+
+    frame = tk.Frame(ws)
+    frame.pack(pady=10)
+    '''tk.Label(ws, text = "Title",height = 2,width =4,font = 10).grid(row=0,column=0)'''
+    lb = tk.Listbox(
+    frame,
+    width=25,
+    height=8,
+    font=('Times', 18),
+    bd=0,
+    fg='#464646',
+    highlightthickness=0,
+    selectbackground='#a6a6a6',
+    activestyle="none",)
+    lb.pack(side=tk.LEFT, fill=tk.BOTH)
+    a_file = open("data.json","r")
+    a_dict = json.load(a_file)
+    print(a_dict)
+    task_list = list(a_dict)
+    print(task_list)
+    for item in task_list:
+        if a_dict[item]["colour"] == "green":
+            lb.insert(tk.END,item)
+            lb.itemconfig(tk.END,bg ="green")
+        elif a_dict[item]["colour"] == "red":
+            lb.insert(tk.END,item)
+            lb.itemconfig(tk.END,bg ="red")
+        else: 
+            lb.insert(tk.END, item)
+    sb = tk.Scrollbar(frame)
+    sb.pack(side=tk.RIGHT, fill=tk.BOTH)
+    lb.config(yscrollcommand=sb.set)
+    sb.config(command=lb.yview)
+    desc = tk.Button(ws, text = "DESCRIPTION",height = 7,width =  14,font='Helvetica 10 bold', command = partial(view_desc, lb, ws))
+    desc.pack()
+    delete = tk.Button(ws, text = "Delete task",height = 7,width = 14,font='Helvetica 10 bold', command = partial(deleteTask,lb))
+
+    delete.pack()
+    finish = tk.Button(ws, text = "Finish task", height = 7,width = 14,font='Helvetica 10 bold', command = partial(finished,lb))
+    finish.pack()
+    abortbutton = tk.Button(ws, text = "Abort task", height = 7,width = 14,font='Helvetica 10 bold', command = partial(abort,lb))
+    abortbutton.pack()
+
+    
+    
+a=tk.Button(root, text ="Add tasks",height = 10,width =20,bg = "brown",font='Helvetica 10 bold', command = add_task)
+a.pack()
+v=tk.Button(root, text ="View tasks",height = 10,width =20, command = view_tasks,font='Helvetica 10 bold',bg = "brown")
+v.pack()
+root.mainloop()

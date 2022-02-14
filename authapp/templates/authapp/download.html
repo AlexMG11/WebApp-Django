@@ -1,0 +1,9 @@
+{% extends "base.html" %}
+{% block title %}Download{% endblock title %}
+{% block content %}
+<h1>{{yes}}</h1>
+<br>
+<a href="http://127.0.0.1:8000/download.png" download="mc.png">Download Image</a> or
+<a href="{% url 'authapp:password_change' %}" class="btn btn-warning">Change your password</a>
+<hr>
+{% endblock content %}

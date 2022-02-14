@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+{% load bootstrap4 %}
+{% block title %}Make Post 
+
+{% endblock title %}
+{% block content %}
+
+{% if form.errors %}
+    
+{% endif %}
+    
+{% comment %} <form action="" method="post" class="form container">
+    {% csrf_token %}
+    {% bootstrap_form form %}
+    {% buttons %}
+    <button type="submit" class="btn btn-primary">Submit</button>
+    {% endbuttons %}
+</form> {% endcomment %}
+
+<form action="" method="post" class="form container">
+    <label for="title">Title:</label><br>
+    <input type="text" id="title" name="title"><br>
+    <label for="slug">Slug</label><br>
+    <input type="text" id="slug" name="slug">
+    
+</form>
+
+{% endblock content %}
